@@ -8,7 +8,7 @@ mbook是学习自慕课网课程[Go读书社区web开发与高性能架构优化
 # 编译运行
 1.将项目放在GOPATH/src下，使得目录结构最终如下面的样子 
 ```
-$ ls $GOPATH/src/ziyoubiancheng/mbook
+$ ls $GOPATH/src/custergo/mbook
 
 LICENSE			controllers		routers			uploads
 README.md		main.go			static			utils
@@ -18,7 +18,7 @@ conf			models			tests
 ```
 2.命令行到代码目录下
 ```
-cd $GOPATH/src/ziyoubiancheng/mbook
+cd $GOPATH/src/custergo/mbook
 ```
 
 3.编译代码
