@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"mbook/controllers"
+	"github.com/custergo/mbook/controllers"
 	"github.com/astaxie/beego"
 )
 

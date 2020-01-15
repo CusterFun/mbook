@@ -3,14 +3,41 @@ package sysinit
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/custergo/mbook/models" // 初始化models里注册的类需要先执行models里的init()函数
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // 建立数据库连接,参数alias可能代表w主库写库
-func dbinit(alias string) {
+// dbinit("w","r",...)
+func dbinit(aliases ...string) {
+	// 如果是开发模式 isDev 为true,则显示命令信息
+	isDev := ("dev" == beego.AppConfig.String("runmode"))
+	if len(aliases) > 0 {
+		for _, alias := range aliases {
+			registerDataBase(alias)
+			if "w" == alias {
+				// false: 发生错误时，不继续执行下一条sql
+				// true: 打印日志详细信息
+				orm.RunSyncdb("default", false, isDev) // 主库自动建表
+			}
+		}
+	} else {
+		registerDataBase("w")
+		orm.RunSyncdb("default", false, isDev) // 主库自动建表
+
+	}
+	if isDev {
+		orm.Debug = isDev
+	}
+}
+
+func registerDataBase(alias string) {
+	if len(alias) <= 0 {
+		return
+	}
+	// 连接名称
 	dbAlias := alias // default
-	if "w" == alias || "default" == alias || len(alias) <= 0 {
+	if "w" == alias || "default" == alias {
 		dbAlias = "default" // 默认库的链接
 		alias = "w"
 	}
@@ -29,15 +56,4 @@ func dbinit(alias string) {
 	// root:root1234@tcp(127.0.0.1:3306)/mbook?charset=urf8
 	orm.RegisterDataBase(dbAlias, "mysql",
 		dbUser+":"+dbPwd+"@tcp("+dbHost+":"+dbPort+")/"+dbName+"?charset=utf8", 30)
-	// 如果是开发模式 isDev 为true
-	isDev := ("dev" == beego.AppConfig.String("runmode"))
-	// 主库自动建表
-	if "w" == alias {
-		// false: 发生错误时，不继续执行下一条sql
-		// true: 打印日志详细信息
-		orm.RunSyncdb("default", false, isDev)
-	}
-	if isDev {
-		orm.Debug = isDev
-	}
 }

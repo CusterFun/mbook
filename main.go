@@ -1,12 +1,10 @@
 package main
 
 import (
-	_ "mbook/routers"
-	"github.com/astaxie/beego"、
-	"github.com/custergo/mbook/sysinit"
+	"github.com/astaxie/beego"
+	_ "github.com/custergo/mbook/routers"
 )
 
 func main() {
 	beego.Run()
 }
-
