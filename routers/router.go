@@ -53,12 +53,12 @@ func init() {
 	beego.Router("/book/comment/:id", &controllers.BookController{}, "post:Comment")            //评论
 
 	//个人设置
-	beego.Router("/setting", &controllers.SettingController{}, "*:Index")
-	beego.Router("/setting/upload", &controllers.SettingController{}, "*:Upload")
+	beego.Router("/setting", &controllers.SettingController{}, "*:Index")         // get请求设置页面，post请求更新设置
+	beego.Router("/setting/upload", &controllers.SettingController{}, "*:Upload") // 上传头像
 
 	//管理后台
-	beego.Router("/manager/category", &controllers.ManagerController{}, "post,get:Category")
-	beego.Router("/manager/update-cate", &controllers.ManagerController{}, "get:UpdateCate")
-	beego.Router("/manager/del-cate", &controllers.ManagerController{}, "get:DelCate")
-	beego.Router("/manager/icon-cate", &controllers.ManagerController{}, "post:UpdateCateIcon")
+	beego.Router("/manager/category", &controllers.ManagerController{}, "post,get:Category")    // 分类管理
+	beego.Router("/manager/update-cate", &controllers.ManagerController{}, "get:UpdateCate")    // 更新分类
+	beego.Router("/manager/del-cate", &controllers.ManagerController{}, "get:DelCate")          // 删除分类
+	beego.Router("/manager/icon-cate", &controllers.ManagerController{}, "post:UpdateCateIcon") // 更新分类图标
 }
